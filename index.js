@@ -1,18 +1,20 @@
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
 
-app.set('port', (process.env.PORT || 5000));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.get('/', function(request, response) {
-  response.sendStatus(200);
+var port = process.env.PORT || 8080;
+var router = express.Router();
+
+router.get('/weather', function(req, res) {
+  res.json({ test: 228 })
 });
 
-app.get('/weather', function(request, response) {
-  response.json({"test": 1});
-});
+app.use('/api', router);
 
-app.listen(app.get('port'), function() {
+app.listen(port, function() {
   console.log('Node app is running on port', app.get('port'));
 });
-
 
