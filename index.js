@@ -17,7 +17,7 @@ router.get('/time', function(req, res) {
   var date = new Date();
   res.json({
     lineOne: date.toString().slice(0, 16),
-    lineTwo: date.getHours + ':' + date.getMinutes + ':' + date.getSeconds
+    lineTwo: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
   })
 });
 
