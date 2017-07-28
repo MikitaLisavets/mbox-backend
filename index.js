@@ -13,6 +13,13 @@ router.get('/menu', function(req, res) {
   res.json(Object.assign({}, menus, {length: menus.length}));
 });
 
+router.get('/time', function(req, res) {
+  res.json({
+    lineOne: 'Test',
+    lineTwo: "looooooooooong test"
+  })
+});
+
 router.get('/weather', function(req, res) {
   res.json({ test: 228 })
 });
