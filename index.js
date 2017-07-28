@@ -10,9 +10,7 @@ var router = express.Router();
 
 router.get('/menu', function(req, res) {
   res.json({
-    0: 'weather',
-    1: 'time',
-    2: 'work'
+    payload: ['weather', 'time', 'work']
    })
 });
 
