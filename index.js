@@ -10,7 +10,7 @@ var router = express.Router();
 
 router.get('/menu', function(req, res) {
   var menus = ['weather', 'time', 'work'];
-  res.json(Object.create(menus));
+  res.json(Object.assign({}, menus, {length: menus.length}));
 });
 
 router.get('/weather', function(req, res) {
