@@ -9,7 +9,7 @@ var port = process.env.PORT || 8080;
 var router = express.Router();
 
 router.get('/menu', function(req, res) {
-  var menus = ['time', 'calc', 'weather', 'work'];
+  var menus = ['time', 'weather', 'work'];
   res.json(Object.assign({}, menus, {length: menus.length}));
 });
 
@@ -22,7 +22,7 @@ router.get('/time', function(req, res) {
 });
 
 router.get('/weather', function(req, res) {
-  res.json({ test: 228 })
+  res.json({ lineOne: "very very long long my my text text" })
 });
 
 app.use('/api', router);
