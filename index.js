@@ -9,7 +9,8 @@ var port = process.env.PORT || 8080;
 var router = express.Router();
 
 router.get('/menu', function(req, res) {
-  res.json(['weather', 'time', 'work'])
+  var menus = ['weather', 'time', 'work'];
+  res.json(Object.create(menus));
 });
 
 router.get('/weather', function(req, res) {
