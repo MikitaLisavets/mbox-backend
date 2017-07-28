@@ -14,9 +14,10 @@ router.get('/menu', function(req, res) {
 });
 
 router.get('/time', function(req, res) {
+  var date = new Date();
   res.json({
-    lineOne: 'Test',
-    lineTwo: "looooooooooong test"
+    lineOne: date.toString(),
+    lineTwo: ""
   })
 });
 
