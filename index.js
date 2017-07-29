@@ -1,6 +1,10 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const request = require('request');
+const jsdom = require('jsdom');
+const { JSDOM } = jsdom;
+const cheerio = require('cheerio');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -14,20 +18,32 @@ router.get('/menu', function(req, res) {
 });
 
 router.get('/time', function(req, res) {
-  var date = new Date();
-  res.json({
-    lineOne: date.toString().slice(0, 16),
-    lineTwo: date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-  })
+  request('https://time.is/Belarus', function (error, response, body) {
+    const $ = cheerio.load(body);
+    const date = $('#dd').text().split(' ');
+    const formatDate = date[0].slice(0, 3)
+      + ' '
+      + date[1].slice(0, 3)
+      + ' '
+      + date[2]
+      + ' '
+      + date[3].slice(0, -1);
+    res.json({
+      lineOne: formatDate,
+      lineTwo: $('#twd').text()
+    })
+  });
 });
 
 router.get('/weather', function(req, res) {
-  res.json({ lineOne: "very very long long my my text text" })
+  request('http://www.google.com', function (error, response, body) {
+    res.send(body);
+  });
 });
 
 app.use('/api', router);
 
 app.listen(port, function() {
-  console.log('Node app is running on port', app.get('port'));
+  console.log('Node app is running on port', port);
 });
 
