@@ -29,10 +29,11 @@ router.get('/weather', function(req, res) {
   request('https://pogoda.tut.by/', function (error, response, body) {
     const $ = cheerio.load(body);
     const t = $('#tab-normal td .temp-i');
+    const temp = $(t[0]).text() + '| ' + $(t[1]).text() + '| ' + $(t[2]).text()
 
     res.json({
       lineOne: "test",
-      lineTwo: $(t[0]).text() + '|' + $(t[1]).text() + '|' + $(t[2]).text()
+      lineTwo: temp.replace(/°/g, ' ')
     });
   });
 });
