@@ -30,7 +30,7 @@ router.get('/time', function(req, res) {
       + date[3].slice(0, -1);
     res.json({
       lineOne: formatDate,
-      lineTwo: $('#twd').text()
+      lineTwo: "Привет"
     })
   });
 });
