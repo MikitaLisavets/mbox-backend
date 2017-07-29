@@ -5,6 +5,7 @@ const request = require('request');
 const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 const cheerio = require('cheerio');
+const moment = require('moment-timezone');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -18,28 +19,12 @@ router.get('/menu', function(req, res) {
 });
 
 router.get('/time', function(req, res) {
-  const date = new Date();
+  const date = moment().tz("Europe/Minsk")
 
   res.json({
-    lineOne: date.toString(),
-    lineTwo: "test"
+    lineOne: date.format('ddd') + ' ' + date.format("MMM/DD/YYYY"),
+    lineTwo: date.format('HH:mm:ss')
   })
-
-  // request('https://www.timeanddate.com/worldclock/belarus/minsk', function (error, response, body) {
-  //   const $ = cheerio.load(body);
-  //   const date = $('#ctdat').text().split(' ');
-  //   const formatDate = date[0].slice(0, 3)
-  //     + ' '
-  //     + date[1].slice(0, 3)
-  //     + '/'
-  //     + date[2].slice
-  //     + '/'
-  //     + date[3];
-  //   res.json({
-  //     lineOne: formatDate,
-  //     lineTwo: $('#ct').text()
-  //   })
-  // });
 });
 
 router.get('/weather', function(req, res) {
