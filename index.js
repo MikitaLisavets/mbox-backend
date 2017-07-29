@@ -29,13 +29,30 @@ router.get('/weather', function(req, res) {
   request('https://pogoda.tut.by/', function (error, response, body) {
     const $ = cheerio.load(body);
     const t = $('#tab-normal td .temp-i');
-    const temp = $(t[0]).text() + '|' + $(t[1]).text() + '| ' + $(t[2]).text() + '|' + $(t[3]).text()
+    const titles = $('#tab-normal .fcurrent-h');
+    const formatT = $(t[0]).text() + '|' + $(t[1]).text() + '| ' + $(t[2]).text() + '|' + $(t[3]).text()
+
+    let formatTitles = '';
+
+    $(titles).each(function(i, elem) {
+      formatTitles += ' ' + getPeriodSymbol($(this).text()) + ' ';
+    });
 
     res.json({
-      lineOne: '®',
-      lineTwo: temp.replace(/°/g, '')
+      lineOne: formatTitles,
+      lineTwo: formatT.replace(/°/g, '')
     });
   });
+
+  function getPeriodSymbol(title) {
+    switch(title) {
+      case 'Утром': return 'M';
+      case 'Днем': return 'A';
+      case 'Вечером': return 'E';
+      case 'Ночью': return 'N';
+      default: return '*';
+    }
+  }
 });
 
 app.use('/api', router);
