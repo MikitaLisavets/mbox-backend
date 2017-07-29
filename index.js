@@ -26,14 +26,13 @@ router.get('/time', function(req, res) {
 });
 
 router.get('/weather', function(req, res) {
-  request('https://www.timeanddate.com/weather/belarus/minsk', function (error, response, body) {
+  request('https://pogoda.tut.by/', function (error, response, body) {
     const $ = cheerio.load(body);
-    const icons = $('#wt-48 tbody tr:nth-child(1) td');
-    const t = $('#wt-48 tbody tr:nth-child(2) td');
+    const t = $('#tab-normal td .temp-i');
 
     res.json({
       lineOne: "test",
-      lineTwo: $(t[0]).text() + ' | ' + $(t[1]).text() + ' | ' + $(t[2]).text()
+      lineTwo: $(t[0]).text() + '|' + $(t[1]).text() + '|' + $(t[2]).text()
     });
   });
 });
