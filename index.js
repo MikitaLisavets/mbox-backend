@@ -35,7 +35,7 @@ router.get('/weather', function(req, res) {
     let formatTitles = '';
 
     $(titles).each(function(i, elem) {
-      formatTitles += ' ' + getPeriodSymbol($(this).text()) + ' ';
+      formatTitles += ' ' + getPeriodSymbol($(this).text()) + '  ';
     });
 
     res.json({
