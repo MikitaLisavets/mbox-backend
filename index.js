@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const request = require('request');
-const jsdom = require('jsdom');
-const { JSDOM } = jsdom;
 const cheerio = require('cheerio');
 const moment = require('moment-timezone');
 
@@ -28,8 +26,15 @@ router.get('/time', function(req, res) {
 });
 
 router.get('/weather', function(req, res) {
-  request('http://www.google.com', function (error, response, body) {
-    res.send(body);
+  request('https://www.timeanddate.com/weather/belarus/minsk', function (error, response, body) {
+    const $ = cheerio.load(body);
+    const icons = $('#wt-48 tbody tr:nth-child(1) td');
+    const t = $('#wt-48 tbody tr:nth-child(2) td');
+
+    res.json({
+      lineOne: "test",
+      lineTwo: $(t[0]).text() + ' | ' + $(t[1]).text() + ' | ' + $(t[2]).text()
+    });
   });
 });
 
