@@ -32,7 +32,7 @@ router.get('/weather', function(req, res) {
     const temp = $(t[0]).text() + '|' + $(t[1]).text() + '| ' + $(t[2]).text() + '|' + $(t[3]).text()
 
     res.json({
-      lineOne: "☀",
+      lineOne: '\u00E3',
       lineTwo: temp.replace(/°/g, '')
     });
   });
