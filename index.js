@@ -91,12 +91,16 @@ router.get('/weather', function(req, res) {
   }
 });
 
-router.get('/work', function(req, res) {
+router.get('/tweet', function(req, res) {
+  request('https://twitter.com/funnyrandom1?lang=en', function (error, response, body) {
+    const $ = cheerio.load(body);
+    const tweet = $('.stream-item:first-child .tweet-text').text();
 
-  res.json({
-    lineOne: translit("Привет"),
-    lineTwo: translit("Съешь ещё этих мягких французских булок, да выпей же чаю.")
-  })
+    res.json({
+      lineOne: tweet.slice(0, 15),
+      lineTwo: tweet.slice(16)
+    });
+  });
 });
 
 app.use('/api', router);
