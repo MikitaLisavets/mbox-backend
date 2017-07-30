@@ -55,6 +55,14 @@ router.get('/weather', function(req, res) {
   }
 });
 
+router.get('/work', function(req, res) {
+
+  res.json({
+    lineOne: "Привет",
+    lineTwo: "Съешь ещё этих мягких французских булок, да выпей же чаю."
+  })
+});
+
 app.use('/api', router);
 
 app.listen(port, function() {
