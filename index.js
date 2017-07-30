@@ -46,9 +46,13 @@ router.get('/weather', function(req, res) {
 
   function getPeriodSymbol(title) {
     switch(title) {
+      case 'Завтра утром':
       case 'Утром': return 'M';
+      case 'Завтра днем':
       case 'Днем': return 'A';
+      case 'Завтра вечером':
       case 'Вечером': return 'E';
+      case 'Завтра ночью':
       case 'Ночью': return 'N';
       default: return '*';
     }
