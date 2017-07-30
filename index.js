@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const request = require('request');
 const cheerio = require('cheerio');
 const moment = require('moment-timezone');
+const cyrillicToTranslit = require('cyrillic-to-translit-js');
+const translit = cyrillicToTranslit().transform;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,10 +28,13 @@ router.get('/time', function(req, res) {
 });
 
 router.get('/weather', function(req, res) {
+  const key = req.query.key;
+
   request('https://pogoda.tut.by/', function (error, response, body) {
     const $ = cheerio.load(body);
     const t = $('#tab-normal td .temp-i');
     const titles = $('#tab-normal .fcurrent-h');
+    const desc = $('#tab-normal .fcurrent-descr');
     const formatT = $(t[0]).text() + '|' + $(t[1]).text() + '|' + $(t[2]).text() + '|' + $(t[3]).text()
 
     let formatTitles = '';
@@ -38,10 +43,37 @@ router.get('/weather', function(req, res) {
       formatTitles += ' ' + getPeriodSymbol($(this).text()) + '  ';
     });
 
-    res.json({
-      lineOne: formatTitles,
-      lineTwo: formatT.replace(/°/g, '')
-    });
+    switch(key) {
+      case '1':
+        res.json({
+          lineOne: translit($(desc[0]).text()),
+          lineTwo: $(t[0]).text().replace(/°/g, ' ') + translit($(titles[0]).text()),
+        });
+        break;
+      case '2':
+        res.json({
+          lineOne: translit($(desc[1]).text()),
+          lineTwo: $(t[1]).text().replace(/°/g, ' ') + translit($(titles[1]).text()),
+        });
+        break;
+      case '3':
+        res.json({
+          lineOne: translit($(desc[2]).text()),
+          lineTwo: $(t[2]).text().replace(/°/g, ' ') + translit($(titles[2]).text()),
+        });
+        break;
+      case '4':
+        res.json({
+          lineOne: translit($(desc[3]).text()),
+          lineTwo: $(t[3]).text().replace(/°/g, ' ') + translit($(titles[3]).text()),
+        });
+        break;
+      default:
+        res.json({
+          lineOne: formatTitles,
+          lineTwo: formatT.replace(/°/g, '')
+        });
+    }
   });
 
   function getPeriodSymbol(title) {
@@ -62,8 +94,8 @@ router.get('/weather', function(req, res) {
 router.get('/work', function(req, res) {
 
   res.json({
-    lineOne: "Привет",
-    lineTwo: "Съешь ещё этих мягких французских булок, да выпей же чаю."
+    lineOne: translit("Привет"),
+    lineTwo: translit("Съешь ещё этих мягких французских булок, да выпей же чаю.")
   })
 });
 
